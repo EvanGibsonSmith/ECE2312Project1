@@ -6,13 +6,14 @@ from scipy.io.wavfile import write
 
 pathname = "crazy_fredrick.wav"
 # Define Sampling Rate or Frequency in Hz
+channels = 1
 sr = 44100
 
 # Record duration in seconds
 duration = 5
 
 # Start audio recording
-recording = sd.rec(int(duration*sr), samplerate=sr, channels=2) # we will record with a  mono or stereo channel microphone
+recording = sd.rec(int(duration*sr), samplerate=sr, channels=channels) # we will record with a  mono or stereo channel microphone
 
 # Record audio for the given duration
 print("recording...............")
