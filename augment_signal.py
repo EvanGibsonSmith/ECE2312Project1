@@ -1,26 +1,27 @@
 import librosa
 import numpy as np
+from scipy.io.wavfile import write
 
-path = "Sound Recordings/crazy_fredrick.wav"
-x, sr = librosa.load(path)
+pathSave = "Sound Recordings/altered/"
+pathRead = "Sound Recordings/"
+filename = "crazy_fredrick.wav"
+x_ster, rec_sr = librosa.load(pathRead+filename, mono = False)
 
-attenuation = [0.25, 0.5, 1.0]
+def delayAndAttenuateSignal(path, stereo, sr, delay, attenuationFactor):
+  period = 1 / sr
+  numPaddingZeros = (int) (delay // period) # floor of delay // period
+  zeros = [0] * numPaddingZeros
 
-#Sampling rate: 44100 Hz --> T = 0.0227 ms
-for i in range(0,3)
-  delay = 10^i
-  delayNum = (int)(delay/0.0227)
-  zeros = [0]*delayNum
-  left = x.tolist() + zeros
-  right = zeros + x.tolist()
+  left = stereo[0].tolist() + zeros # pad to be same length, delay right side
+  right = zeros + stereo[1].tolist()
+  right = [elem * attenuationFactor for elem in right]
 
-  name = "Sound Recordings/crazy_fredrick" + str(delay) + "ms-"
+  # make 2d numpy array for stereo write
+  stereo_data = np.array([np.asarray(left), np.asarray(right)])
+  print(stereo_data.T)
+  write(path, sr, stereo_data.T.astype(np.float32))
 
-  for a in attenuation
-    right = a*right
-    name = name + str(a*6) + "dB.wav"
-  
-
-
-#print(left[0:10])
-#print(right[0:10])
+# Very coarse approximation of 0.5924198ms 
+delay = 1 # desired delay in seconds
+attenuation = 1 # values to attentuate by for right side TODO use attenuation
+delayAndAttenuateSignal(pathSave + filename, x_ster, rec_sr, delay, attenuation)

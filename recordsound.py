@@ -6,7 +6,7 @@ from scipy.io.wavfile import write
 
 pathname = "crazy_fredrick.wav"
 # Define Sampling Rate or Frequency in Hz
-channels = 1
+channels = 2
 sr = 44100
 
 # Record duration in seconds
