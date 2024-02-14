@@ -22,6 +22,20 @@ def delayAndAttenuateSignal(path, stereo, sr, delay, attenuationFactor):
   write(path, sr, stereo_data.T.astype(np.float32))
 
 # Very coarse approximation of 0.5924198ms 
-delay = 1 # desired delay in seconds
-attenuation = 1 # values to attentuate by for right side TODO use attenuation
-delayAndAttenuateSignal(pathSave + filename, x_ster, rec_sr, delay, attenuation)
+# Also coarse approximation of 0.1778/343 = 0.5183667 ms
+# Average head delay = 0.55539325 ms
+avg_head = 0.00055539325 #in seconds
+# desired delay in seconds
+delay1 = [avg_head, 0.001] # the values that have different attenuations
+delay2 = [0.010, 0.100] # the values that have no attenuation
+attenuation = [1.5, 3, 6] # values to attentuate by for right side TODO use attenuation
+
+
+for d in delay1:
+  for a in attenuation:
+    filename = str(d) + "delay-" + str(a) + "dB-" + filename
+    delayAndAttenuateSignal(pathSave + filename, x_ster, rec_sr, d, a/6)
+
+for d in delay2:
+  filename = str(d) + "delay-" + "6dB-" + filename
+  delayAndAttenuateSignal(pathSave + filename, x_ster, rec_sr, d, 1)
