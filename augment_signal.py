@@ -26,8 +26,8 @@ def delayAndAttenuateSignal(path, stereo, sr, delay, attenuationFactor):
 # Average head delay = 0.55539325 ms
 avg_head = 0.00055539325 #in seconds
 # desired delay in seconds
-delay1 = [avg_head, 0.001] # the values that have different attenuations
-delay2 = [0.010, 0.100] # the values that have no attenuation
+delay1 = [avg_head, 0] # the values that have different attenuations
+delay2 = [0.001, 0.010, 0.100] # the values that have no attenuation
 attenuation = [1.5, 3, 6] # values to attentuate by for right side TODO use attenuation
 
 
